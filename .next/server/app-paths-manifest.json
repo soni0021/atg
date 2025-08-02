@@ -1,0 +1,8 @@
+{
+  "/neet-test/page": "app/neet-test/page.js",
+  "/custom-test/page": "app/custom-test/page.js",
+  "/test-interface/page": "app/test-interface/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/test-analysis/page": "app/test-analysis/page.js",
+  "/page": "app/page.js"
+}

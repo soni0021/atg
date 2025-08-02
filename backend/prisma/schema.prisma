@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subject {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  displayName String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  chapters  Chapter[]
+  
+  @@map("subjects")
+}
+
+model Chapter {
+  id        String    @id @default(cuid())
+  name      String
+  displayName String
+  subjectId String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  subject   Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  topics    Topic[]
+  questions Question[]
+  
+  @@unique([name, subjectId])
+  @@map("chapters")
+}
+
+model Topic {
+  id        String    @id @default(cuid())
+  name      String
+  displayName String
+  chapterId String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  chapter   Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  questions Question[]
+  
+  @@unique([name, chapterId])
+  @@map("topics")
+}
+
+model Question {
+  id            String       @id @default(cuid())
+  questionId    String       @unique // Original ID from JSON (e.g., "4.1_Q01")
+  type          QuestionType
+  question      String       @db.Text
+  options       String[]     // For MCQ options
+  tableHTML     String?      @db.Text
+  imageMarkdown String?      @db.Text
+  answer        String
+  explanation   String?      @db.Text
+  difficulty    Difficulty   @default(MEDIUM)
+  marks         Int          @default(1)
+  chapterId     String
+  topicId       String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  chapter       Chapter      @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  topic         Topic?       @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  
+  @@map("questions")
+}
+
+enum QuestionType {
+  MCQ
+  SHORT_ANSWER
+  LONG_ANSWER
+  NUMERICAL
+  ASSERTION_REASON
+  
+  @@map("question_types")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+  
+  @@map("difficulties")
+}
