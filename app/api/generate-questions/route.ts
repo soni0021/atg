@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateDummyQuestions } from '@/data/dummy-api-data';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000';
 
@@ -17,8 +18,10 @@ interface QuestionRequest {
 }
 
 export async function POST(request: NextRequest) {
+  let body: QuestionRequest;
+  
   try {
-    const body: QuestionRequest = await request.json();
+    body = await request.json();
     
     // Add logging to debug what we're sending to backend
     console.log('API Route - Request body:', JSON.stringify(body, null, 2));
@@ -46,10 +49,10 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(questions, { status: 200 });
   } catch (error) {
-    console.error('Error generating questions:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate questions', details: error.message },
-      { status: 500 }
-    );
+    console.error('Error generating questions from backend, using dummy data:', error);
+    
+    // Fallback to dummy data
+    const dummyQuestions = generateDummyQuestions(body);
+    return NextResponse.json(dummyQuestions, { status: 200 });
   }
 }

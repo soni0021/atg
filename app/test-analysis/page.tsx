@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,7 +43,7 @@ interface TestResults {
   subject: string;
 }
 
-export default function TestAnalysis() {
+function TestAnalysisContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [results, setResults] = useState<TestResults | null>(null);
@@ -417,7 +417,7 @@ export default function TestAnalysis() {
                             <div className="bg-yellow-50 p-2 rounded text-xs border border-yellow-200">
                               <span className="font-medium text-yellow-800">Comparison: </span>
                               <span className="text-yellow-700">
-                                "{question.options[userAnswer]?.trim()}" vs "{question.answer?.trim()}"
+                                &quot;{question.options[userAnswer]?.trim()}&quot; vs &quot;{question.answer?.trim()}&quot;
                                 {(() => {
                                   const userAnswerText = question.options[userAnswer]?.trim().toLowerCase();
                                   const correctAnswerText = question.answer?.trim().toLowerCase();
@@ -497,5 +497,13 @@ export default function TestAnalysis() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TestAnalysis() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TestAnalysisContent />
+    </Suspense>
   );
 }

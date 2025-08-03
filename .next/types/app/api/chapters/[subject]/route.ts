@@ -1,4 +1,4 @@
-// File: /Users/devashishsoni/Downloads/test-designer-pro-main/app/api/chapters/[subject]/route.ts
+// File: /Users/manishsoni/Testing Platform/atg/app/api/chapters/[subject]/route.ts
 import * as entry from '../../../../../../app/api/chapters/[subject]/route.js'
 import type { NextRequest } from 'next/server.js'
 

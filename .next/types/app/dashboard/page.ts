@@ -1,4 +1,4 @@
-// File: /Users/devashishsoni/Downloads/test-designer-pro-main/app/dashboard/page.tsx
+// File: /Users/manishsoni/Testing Platform/atg/app/dashboard/page.tsx
 import * as entry from '../../../../app/dashboard/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

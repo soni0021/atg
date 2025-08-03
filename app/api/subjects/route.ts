@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getDummySubjects } from '@/data/dummy-api-data';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000';
 
@@ -19,10 +20,10 @@ export async function GET() {
     
     return NextResponse.json(subjects, { status: 200 });
   } catch (error) {
-    console.error('Error fetching subjects:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch subjects' },
-      { status: 500 }
-    );
+    console.error('Error fetching subjects from backend, using dummy data:', error);
+    
+    // Fallback to dummy data
+    const dummySubjects = getDummySubjects();
+    return NextResponse.json(dummySubjects, { status: 200 });
   }
 }

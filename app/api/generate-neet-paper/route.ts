@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateDummyNEETPaper } from '@/data/dummy-api-data';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000';
 
@@ -7,8 +8,10 @@ interface NEETRequest {
 }
 
 export async function POST(request: NextRequest) {
+  let body: NEETRequest;
+  
   try {
-    const body: NEETRequest = await request.json();
+    body = await request.json();
     
     // Default to all NEET subjects if not specified
     const requestBody = {
@@ -32,11 +35,11 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json(neetPaper, { status: 200 });
   } catch (error) {
-    console.error('Error generating NEET paper:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate NEET paper', details: error.message },
-      { status: 500 }
-    );
+    console.error('Error generating NEET paper from backend, using dummy data:', error);
+    
+    // Fallback to dummy data
+    const dummyNEETPaper = generateDummyNEETPaper(body?.subjects);
+    return NextResponse.json(dummyNEETPaper, { status: 200 });
   }
 }
 
@@ -59,10 +62,10 @@ export async function GET() {
     
     return NextResponse.json(neetPaper, { status: 200 });
   } catch (error) {
-    console.error('Error generating test NEET paper:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate test NEET paper', details: error.message },
-      { status: 500 }
-    );
+    console.error('Error generating test NEET paper from backend, using dummy data:', error);
+    
+    // Fallback to dummy data
+    const dummyNEETPaper = generateDummyNEETPaper();
+    return NextResponse.json(dummyNEETPaper, { status: 200 });
   }
 }

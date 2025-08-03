@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server';
+import { getDummyChapters } from '@/data/dummy-api-data';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000';
 
 export async function GET(
   request: Request,
-  { params }: { params: { subject: string } }
+  { params }: { params: Promise<{ subject: string }> }
 ) {
+  const { subject } = await params;
+  
   try {
-    const { subject } = await params;
-    
     const response = await fetch(`${BACKEND_URL}/chapters/${encodeURIComponent(subject)}`, {
       method: 'GET',
       headers: {
@@ -24,10 +25,10 @@ export async function GET(
     
     return NextResponse.json(chapters, { status: 200 });
   } catch (error) {
-    console.error('Error fetching chapters:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch chapters' },
-      { status: 500 }
-    );
+    console.error('Error fetching chapters from backend, using dummy data:', error);
+    
+    // Fallback to dummy data
+    const dummyChapters = getDummyChapters(subject);
+    return NextResponse.json(dummyChapters, { status: 200 });
   }
 }

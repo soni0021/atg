@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,7 +35,7 @@ interface Question {
   explanation?: string;
 }
 
-export default function TestInterface() {
+function TestInterfaceContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [testData, setTestData] = useState<any>(null);
@@ -297,7 +297,7 @@ export default function TestInterface() {
             <div className="text-6xl">🤔</div>
             <h2 className="text-xl font-semibold">No Test Data Found</h2>
             <p className="text-muted-foreground">
-              It looks like the test data didn't load properly. This could happen if:
+              It looks like the test data didn&apos;t load properly. This could happen if:
             </p>
             <ul className="text-sm text-left text-muted-foreground space-y-1">
               <li>• The test data was too large to pass through the URL</li>
@@ -576,5 +576,13 @@ export default function TestInterface() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TestInterface() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TestInterfaceContent />
+    </Suspense>
   );
 }

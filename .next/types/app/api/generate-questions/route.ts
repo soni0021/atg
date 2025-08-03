@@ -1,4 +1,4 @@
-// File: /Users/devashishsoni/Downloads/test-designer-pro-main/app/api/generate-questions/route.ts
+// File: /Users/manishsoni/Testing Platform/atg/app/api/generate-questions/route.ts
 import * as entry from '../../../../../app/api/generate-questions/route.js'
 import type { NextRequest } from 'next/server.js'
 

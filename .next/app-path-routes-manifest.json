@@ -1,0 +1,14 @@
+{
+  "/api/chapters/[subject]/route": "/api/chapters/[subject]",
+  "/api/generate-neet-paper/route": "/api/generate-neet-paper",
+  "/api/subjects/route": "/api/subjects",
+  "/api/generate-questions/route": "/api/generate-questions",
+  "/api/topics/[subject]/[chapter]/route": "/api/topics/[subject]/[chapter]",
+  "/_not-found/page": "/_not-found",
+  "/dashboard/page": "/dashboard",
+  "/neet-test/page": "/neet-test",
+  "/test-analysis/page": "/test-analysis",
+  "/test-interface/page": "/test-interface",
+  "/custom-test/page": "/custom-test",
+  "/page": "/"
+}
